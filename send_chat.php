@@ -72,7 +72,7 @@ function isFile($url){
 }
 function sendchat($userid,$noidung){
 global $JSON;
-$payload = '{"'.$JSON.'":"'.$noidung.'"}';
+$payload = '{"'.$JSON.'":"'.json_encode($noidung).'"}';
 if(isImage($noidung)) requestImage($userid, $payload);
 else if(isVoid($noidung)) requestVoid($userid, $payload);
 else if(isVideo($noidung)) requestVideo($userid, $payload);
@@ -87,8 +87,8 @@ function requestText($userid,$jsondata) { // hàm gửi chát :)))
   $url = "https://api.chatfuel.com/bots/$BOT_ID/users/$userid/send?chatfuel_token=$TOKEN&chatfuel_block_name=$BLOCK_NAME";
   $ch = curl_init($url);
   curl_setopt($ch, CURLOPT_POST, 1);
-  curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
-  echo htmlentities($jsondata);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, html_entity_decode($jsondata));
+  echo html_entity_decode($jsondata);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
   curl_exec($ch);
 
