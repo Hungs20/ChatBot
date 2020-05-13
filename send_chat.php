@@ -85,6 +85,7 @@ else requestText($userid,$payload);
 }
 
 function requestText($userid,$jsondata) { // hàm gửi chát :)))
+echo $jsondata;
   global $TOKEN;
   global $BOT_ID;
   global $BLOCK_NAME;
