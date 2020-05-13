@@ -1,4 +1,7 @@
+﻿
 ﻿Hướng dẫn cài đặt
+Bot chat kết nối với người lạ
+
 
 + Công cụ cần thiết
 	- Hosting Php + Mysql ( https://www.000webhost.com/ )
@@ -39,4 +42,3 @@
 			https://uetbot.000webhostapp.com/block.php?ID={{messenger user id}}
 		* xacnhanblock
 		* huongdan
-
