@@ -1,9 +1,27 @@
 <?php
 
-$ID = $_GET['ID'];// lấy id từ chatfuel
+$ID = $_POST['ID'];// lấy id từ chatfuel
 require_once 'config.php'; //lấy thông tin từ config
 
 $conn = mysqli_connect($DBHOST, $DBUSER, $DBPW, $DBNAME); // kết nối data
+$errorChat = '{
+     "messages": [
+    {
+      "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"generic",
+          "elements":[
+            {
+              "title":"Lỗi !!!",
+              "subtitle":"Đã xảy ra lỗi gửi tin. Bạn gửi lại thử nhé."
+            }
+          ]
+        }
+      }
+    }
+  ]
+} ';
 //////// LẤY ID NGƯỜI CHÁT CÙNG ////////////
 function getRelationship($userid) {
   global $conn;
@@ -25,6 +43,17 @@ function request($userid,$jsondata) {
   curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
   curl_exec($ch);
+    	if (curl_errno($ch)) {
+		echo errorChat;
+	} else {
+		$resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if ($resultStatus == 200) {
+			// send ok
+		} else {
+			echo errorChat;
+		}
+	}
+	curl_close($ch);
 }
 ///// Hàm gửi tin nhắn //////////
 
@@ -47,8 +76,8 @@ function outchat($userid) {
   mysqli_query($conn, "UPDATE `users` SET `trangthai` = 0, `ketnoi` = NULL, `hangcho` = 0 WHERE `ID` = $partner");
   mysqli_query($conn, "INSERT INTO `block` (idBlock, idBlocked) VALUES ($userid, $partner) ");
   mysqli_query($conn, "INSERT INTO `block` (idBlock, idBlocked) VALUES ($partner, $userid) ");
-  sendchat($userid,"💔 Đối phương đã bị block ! Để tiếp tục hãy gõ 'Start'");
-  endchat($partner,"💔 Người lạ đã block bạn ! Để tiếp tục hãy gõ 'Start'");
+  sendchat($userid,"💔 Cá đã bị block ! Để tiếp tục thả câu hãy gõ 'Start'");
+  endchat($partner,"💔 Cá đã block bạn ! Để tiếp tục thả câu hãy gõ 'Start'");
 }
 
 
@@ -83,8 +112,8 @@ echo'{
           "template_type":"generic",
           "elements":[
             {
-              "title":"⛔️ CẢNH BÁO",
-              "subtitle":"Bạn chưa bắt đầu cuộc trò chuyện ! Hãy gõ \'Start\' bắt đầu cuộc trò chuyện"
+              "title":"Cảnh báo",
+              "subtitle":"Bạn chưa thả câu ! Hãy gõ \'Start\' để bắt đầu rắc thính nhé"
             }
           ]
         }

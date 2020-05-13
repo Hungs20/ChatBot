@@ -1,7 +1,8 @@
 
 <?php
-$ID = $_GET['ID'];// lấy id từ chatfuel
-$gioitinh = $_GET['gt']; // lấy giới tính
+$ID = $_POST['ID']; // lấy id từ chatfuel
+$gioitinh = $_POST['gt'];// lấy giới tính
+
 require_once 'config.php'; //lấy thông tin từ config
 $conn = mysqli_connect($DBHOST, $DBUSER, $DBPW, $DBNAME); // kết nối data
 ////// Hàm Gửi JSON //////////
@@ -16,6 +17,37 @@ function request($userid,$jsondata) {
   curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
   curl_exec($ch);
+  $errorChat = '{
+     "messages": [
+    {
+      "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"generic",
+          "elements":[
+            {
+              "title":"Lỗi !!!",
+              "subtitle":"Đã xảy ra lỗi gửi tin. Bạn gửi lại thử nhé."
+            }
+          ]
+        }
+      }
+    }
+  ]
+} ';
+	if (curl_errno($ch)) {
+		echo errorChat;
+	} else {
+		$resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if ($resultStatus == 200) {
+			// send ok
+		} else {
+			echo errorChat;
+		}
+	}
+	curl_close($ch);
+
+  
 }
 ///// Hàm gửi tin nhắn //////////
 
@@ -74,8 +106,8 @@ function ketnoi($userid,$gioitinh) { //tìm người chát
           "template_type":"generic",
           "elements":[
             {
-              "title":"🎉 THÔNG BÁO",
-              "subtitle":"Đợi xíu BOT đang tìm một bạn nữ cho bạn (👩)"
+              "title":"Đang thả câu...",
+              "subtitle":"Đợi xíu BOT đang tìm một cá nữ cho bạn (👩)"
             }
           ]
         }
@@ -94,8 +126,8 @@ function ketnoi($userid,$gioitinh) { //tìm người chát
           "template_type":"generic",
           "elements":[
             {
-              "title":"🎉 THÔNG BÁO",
-              "subtitle":"Đợi xíu BOT đang tìm một bạn nam cho bạn (👱)"
+              "title":"Đang thả câu...",
+              "subtitle":"Đợi xíu BOT đang tìm một cá nam cho bạn (👱)"
             }
           ]
         }
@@ -114,8 +146,8 @@ function ketnoi($userid,$gioitinh) { //tìm người chát
           "template_type":"generic",
           "elements":[
             {
-              "title":"🎉 THÔNG BÁO",
-              "subtitle":"Đợi xíu BOT đang tìm một bạn ẩn giới tính giống bạn (👤)"
+              "title":"Đang thả câu...",
+              "subtitle":"Đợi xíu BOT đang tìm một cá ẩn giới tính giống bạn (👤)"
             }
           ]
         }
@@ -127,14 +159,14 @@ function ketnoi($userid,$gioitinh) { //tìm người chát
 } else {  // neu co nguoi trong hàng chờ
     addketnoi($userid, $partner);
 	if($gioitinh == "male"){
-	sendchat($userid,"✅ Bạn đã được kết nối với một bạn nữ (👩)");  
-	sendchat($partner,"✅ Bạn đã được kết nối với một bạn nam (👱)");  
+	sendchat($userid,"✅ Bạn đã được kết nối với một cá nữ (👩)");  
+	sendchat($partner,"✅ Bạn đã được kết nối với một cá nam (👱)");  
 	}else if($gioitinh == "female"){
-	sendchat($partner,"✅ Bạn đã được kết nối với một bạn nữ (👩)");  
-	sendchat($userid,"✅ Bạn đã được kết nối với một bạn nam (👱)"); 	
+	sendchat($partner,"✅ Bạn đã được kết nối với một cá nữ (👩)");  
+	sendchat($userid,"✅ Bạn đã được kết nối với một cá nam (👱)"); 	
 	}else{
-	sendchat($partner,"✅ Bạn đã được kết nối với một người lạ(👤)");  
-	sendchat($userid,"✅ Bạn đã được kết nối với một người lạ(👤)"); 	
+	sendchat($partner,"✅ Bạn đã được kết nối với một cá lạ(👤)");  
+	sendchat($userid,"✅ Bạn đã được kết nối với một cá lạ(👤)"); 	
 	}
   
   }
@@ -174,8 +206,8 @@ echo'{
           "template_type":"generic",
           "elements":[
             {
-              "title":"⛔️ CẢNH BÁO",
-              "subtitle":"Bạn đang ở trong hàng chờ ! Hãy gõ \'End\' để thoát"
+              "title":"Đang thả câu...",
+              "subtitle":"Chưa có cá nào dính thính đâu. Bạn chờ chút nhé! "
             }
           ]
         }
@@ -195,8 +227,8 @@ echo'{
           "template_type":"generic",
           "elements":[
             {
-              "title":"⛔️ CẢNH BÁO",
-              "subtitle":"Bạn đang được kết nối chát với người khác ! Hãy gõ \'End\' để thoát"
+              "title":"Cảnh báo",
+              "subtitle":"Bạn đang được kết nối với cá rồi ! Hãy gõ \'End\' để thoát"
             }
           ]
         }

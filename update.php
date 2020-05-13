@@ -1,8 +1,8 @@
 <?php
 require_once 'config.php'; //lấy thông tin từ config
 $conn = mysqli_connect($DBHOST, $DBUSER, $DBPW, $DBNAME) or die ('Không thể kết nối tới database');
-$ID = $_GET['ID'];// lấy id từ chatfuel
-$gioitinh = $_GET['gt']; // lấy giới tính
+$ID = $_POST['ID'];// lấy id từ chatfuel
+$gioitinh = $_POST['gt']; // lấy giới tính
 function isUserExist($userid) { //hàm kiểm tra xem user đã tồn tại chưa 
   global $conn;
   $result = mysqli_query($conn, "SELECT `ID` from `users` WHERE `ID` = $userid LIMIT 1");

@@ -2,10 +2,27 @@
 <?php
 require_once 'config.php'; //lấy thông tin từ config
 $conn = mysqli_connect($DBHOST, $DBUSER, $DBPW, $DBNAME); // kết nối data
-$id = $_GET['id'];
-$noidung = $_GET['noidung'];
+$id = $_POST['id'];
+$noidung = $_POST['noidung'];
 //$noidung = substr($noidung,1,strlen($noidung) - 1);
-
+$errorChat = '{
+     "messages": [
+    {
+      "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"generic",
+          "elements":[
+            {
+              "title":"Lỗi !!!",
+              "subtitle":"Đã xảy ra lỗi gửi tin. Bạn gửi lại thử nhé."
+            }
+          ]
+        }
+      }
+    }
+  ]
+} ';
 //////// LẤY ID NGƯỜI CHÁT CÙNG ////////////
 function getRelationship($userid) {
   global $conn;
@@ -21,7 +38,6 @@ function endsWith($haystack, $needle)
     if ($length == 0) {
         return true;
     }
-
     return (substr($haystack, -$length) === $needle);
 }
 ///// Hàm gửi tin nhắn //////////
@@ -31,7 +47,6 @@ function isImage($url){
 	if((strpos($o["host"], 'fbcdn.net') !== false || strpos($o["host"], 'cdn.fbsbx.com') !== false)  && (endsWith($o["path"], '.png') || endsWith($o["path"], '.jpg') || endsWith($o["path"], '.jpeg') || endsWith($o["path"], '.gif')))
 			return explode(" ", $url);
 	return false;
-		
 }
 function isVoid($url){
 	$o = parse_url($url);
@@ -39,15 +54,13 @@ function isVoid($url){
 	if(strpos($o["host"], 'cdn.fbsbx.com') !== false && (endsWith($o["path"], '.mp4') || endsWith($o["path"], '.acc') || endsWith($o["path"], '.mp3') ))
 			return explode(" ", $url);
 	return false;
-		
 }
 function isVideo($url){
 	$o = parse_url($url);
 	if($o["scheme"] != 'https') return false;
 	if(strpos($o["host"], 'video.xx.fbcdn.net') !== false && (endsWith($o["path"], '.mp4')  ))
 			return explode(" ", $url);
-	return false;
-		
+	return false;	
 }
 function isFile($url){
 	$o = parse_url($url);
@@ -55,7 +68,6 @@ function isFile($url){
 	if(strpos($o["host"], 'cdn.fbsbx.com') !== false && (endsWith($o["path"], '.pdf') || endsWith($o["path"], '.txt') || endsWith($o["path"], '.pptx') || endsWith($o["path"], '.xlxs') || endsWith($o["path"], '.docx') || endsWith($o["path"], '.zip') || endsWith($o["path"], '.rar') ))
 			return explode(" ", $url);
 	return false;
-		
 }
 function sendchat($userid,$noidung){
 global $JSON;
@@ -77,6 +89,19 @@ function requestText($userid,$jsondata) { // hàm gửi chát :)))
   curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
   curl_exec($ch);
+
+	if (curl_errno($ch)) {
+		echo errorChat;
+	} else {
+		$resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if ($resultStatus == 200) {
+			// send ok
+		} else {
+			echo errorChat;
+		}
+	}
+	curl_close($ch);
+
 }
 function requestImage($userid,$jsondata) { // hàm gửi chát :)))
   global $TOKEN;
@@ -88,6 +113,17 @@ function requestImage($userid,$jsondata) { // hàm gửi chát :)))
   curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
   curl_exec($ch);
+  	if (curl_errno($ch)) {
+		echo errorChat;
+	} else {
+		$resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if ($resultStatus == 200) {
+			// send ok
+		} else {
+			echo errorChat;
+		}
+	}
+	curl_close($ch);
 }
 function requestVoid($userid,$jsondata) { // hàm gửi chát :)))
   global $TOKEN;
@@ -99,6 +135,17 @@ function requestVoid($userid,$jsondata) { // hàm gửi chát :)))
   curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
   curl_exec($ch);
+  	if (curl_errno($ch)) {
+		echo errorChat;
+	} else {
+		$resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if ($resultStatus == 200) {
+			// send ok
+		} else {
+			echo errorChat;
+		}
+	}
+	curl_close($ch);
 }
 function requestVideo($userid,$jsondata) { // hàm gửi chát :)))
   global $TOKEN;
@@ -110,6 +157,17 @@ function requestVideo($userid,$jsondata) { // hàm gửi chát :)))
   curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
   curl_exec($ch);
+  	if (curl_errno($ch)) {
+		echo errorChat;
+	} else {
+		$resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if ($resultStatus == 200) {
+			// send ok
+		} else {
+			echo errorChat;
+		}
+	}
+	curl_close($ch);
 }
 function requestFile($userid,$jsondata) { // hàm gửi chát :)))
   global $TOKEN;
@@ -121,15 +179,22 @@ function requestFile($userid,$jsondata) { // hàm gửi chát :)))
   curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
   curl_exec($ch);
+  	if (curl_errno($ch)) {
+		echo errorChat;
+	} else {
+		$resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if ($resultStatus == 200) {
+			// send ok
+		} else {
+			echo errorChat;
+		}
+	}
+	curl_close($ch);
 }
 $partner = getRelationship($id);
 
-if($partner != 0){
+if($partner){
 sendchat($partner,$noidung);
-?>
-
-  
-<?php
 }else{
 echo'{
  "messages": [
@@ -140,8 +205,8 @@ echo'{
           "template_type":"generic",
           "elements":[
             {
-              "title":"⛔️ CẢNH BÁO",
-              "subtitle":"Bạn đang ở trong hàng chờ chưa kết nối với ai ! Hãy gõ \'End\' để thoát"
+              "title":"Đang thả câu...",
+              "subtitle":"Chưa có cá nào dính thính đâu. Hãy chờ tiếp bạn nhé!"
             }
           ]
         }
