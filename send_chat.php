@@ -76,7 +76,8 @@ function isFile($url){
 }
 function sendchat($userid,$noidung){
 global $JSON;
-$payload = '{"'.$JSON.'":"'.$noidung.'"}';
+$nd = json_encode($noidung);
+$payload = '{"'.$JSON.'":"'.$nd.'"}';
 if(isImage($noidung)) requestImage($userid, $payload);
 else if(isVoid($noidung)) requestVoid($userid, $payload);
 else if(isVideo($noidung)) requestVideo($userid, $payload);
