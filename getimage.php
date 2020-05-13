@@ -28,12 +28,6 @@ function isNudeImage($url)
 
 $id = $_POST['id'];
 $url = $_POST['url'];
-if(strpos($url, 't39') === false){
-$conn = mysqli_connect($DBHOST, $DBUSER, $DBPW, $DBNAME); // kết nối data
-$sql = "INSERT INTO `data` (`userID`, `text`, `type`) VALUES ('$id', '$url', 'image')";
-$info = mysqli_query($conn,$sql );
-mysqli_close($conn);
-}
 $isNude = isNudeImage($url);
 if($isNude == 0)
 {
