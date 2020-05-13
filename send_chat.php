@@ -95,7 +95,7 @@ function requestText($userid,$jsondata) { // hàm gửi chát :)))
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
   curl_exec($ch);
 
-	if (curl_errno($ch)) {
+	/*if (curl_errno($ch)) {
 		echo errorChat;
 	} else {
 		$resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -104,7 +104,7 @@ function requestText($userid,$jsondata) { // hàm gửi chát :)))
 		} else {
 			echo errorChat;
 		}
-	}
+	}*/
 	curl_close($ch);
 
 }
