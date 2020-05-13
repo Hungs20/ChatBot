@@ -1,44 +1,58 @@
 ﻿
-﻿Hướng dẫn cài đặt
-Bot chat kết nối với người lạ
-
+﻿Hướng dẫn cài đặt UET Chatbot
+Link youtube: https://youtu.be/oqiJQQjfOas
 
 + Công cụ cần thiết
-	- Hosting Php + Mysql ( https://www.000webhost.com/ )
+	- Hosting Php + Mysql ( https://heroku.com ) (Các bạn đăng kí tài khoản trên heroku nhé)
 	- Source Code ( https://github.com/Hungs20/ChatBot/ )
 	- Fanpage ( https://www.facebook.com/cvhungs20/ )
-	- Chatfuel ( chatfuel.com )
+	- Chatfuel ( chatfuel.com ) (Các bạn đăng kí tài khoản chatfuel nhé)
+	- Github + git (Các bạn đăng kí tài khoản trên github nhé)
 + Cài đặt code + data
-	- Tải code tại github
-	- Đăng kí tài khoản hosting + database  
-	- Upload source code 
-	- Upload database 
-	- Edit file "config.php"
+	- Fork code tại github
+	- Đăng kí tài khoản heroku 
+	- Tạo database
+	- Edit Config Vars
+	- Install database
 + Cài đặt Chatfuel
+	
+	Các bạn thay link https://uetbot.herokuapp.com thành link của các bạn nhé
+	
 	- Welcome message
-		https://uetbot.000webhostapp.com/update.php?ID={{messenger user id}}&gt={{gender}}
+		https://uetbot.herokuapp.com/update.php
 	- Default answer
-		https://uetbot.000webhostapp.com/update.php?ID={{messenger user id}}&gt={{gender}}
+		https://uetbot.herokuapp.com/update.php
 	- Tạo các block
 		* thamgia
-			https://uetbot.000webhostapp.com/update.php?ID={{messenger user id}}&gt={{gender}}
-			https://uetbot.000webhostapp.com/thamgia.php?ID={{messenger user id}}&gt={{gender}}
+			https://uetbot.herokuapp.com/update.php
+			https://uetbot.herokuapp.com/thamgia.php
 		* uetchat
 			{{uet_text}}
 		* uet_image
-			http://uetbot.000webhostapp.com/getimage.php?id={{messenger user id}}&url={{uet_text}}
+			http://uetbot.herokuapp.com/getimage.php
 		* uet_void
-			http://uetbot.000webhostapp.com/getvoid.php?id={{messenger user id}}&url={{uet_text}}
+			http://uetbot.herokuapp.com/getvoid.php
 		* uet_video
-			http://uetbot.000webhostapp.com/getvideo.php?id={{messenger user id}}&url={{uet_text}}
+			http://uetbot.herokuapp.com/getvideo.php
 		* uet_file
-			http://uetbot.000webhostapp.com/getfile.php?id={{messenger user id}}&url={{uet_text}}
+			http://uetbot.herokuapp.com/getfile.php
 		* send_chat
-			https://uetbot.000webhostapp.com/send_chat.php?id={{messenger user id}}&noidung={{noidung}}
+			https://uetbot.herokuapp.com/send_chat.php
 		* thoat
-			https://uetbot.000webhostapp.com/thoat.php?ID={{messenger user id}}
+			https://uetbot.herokuapp.com/thoat.php
 		* xacnhan
 		* block
-			https://uetbot.000webhostapp.com/block.php?ID={{messenger user id}}
+			https://uetbot.herokuapp.com/block.php
 		* xacnhanblock
 		* huongdan
+		* getinfo 
+			https://uetbot.herokuapp.com/info.php
+			
+	- Chỉnh config heroku tiếp nào
+	- Tiếp theo sử dụng api để check ảnh nhạy cảm tránh bị block nhắn tin của facebook
+		https://dashboard.sightengine.com/
+		CÁc bạn đăng kí tài khoản trên này nhé
+		Giờ connect chatfuel với fanpage của bạn và test thôi
+		
+		Vậy là đã xong chatbot kết nối với người lạ khác giới tính rồi đó
+		Xin chào các bạn...
