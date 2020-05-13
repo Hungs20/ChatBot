@@ -88,11 +88,10 @@ function requestText($userid,$jsondata) { // hàm gửi chát :)))
   $ch = curl_init($url);
   curl_setopt($ch, CURLOPT_POST, 1);
   curl_setopt($ch, CURLOPT_POSTFIELDS, html_entity_decode($jsondata));
-  echo html_entity_decode($jsondata);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
   curl_exec($ch);
 
-	/*if (curl_errno($ch)) {
+	if (curl_errno($ch)) {
 		echo errorChat;
 	} else {
 		$resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -101,7 +100,7 @@ function requestText($userid,$jsondata) { // hàm gửi chát :)))
 		} else {
 			echo errorChat;
 		}
-	}*/
+	}
 	curl_close($ch);
 
 }

@@ -16,7 +16,6 @@ function isNudeImage($url)
     curl_close($ch);
     $result = json_decode($res, true);
     if($result['status'] == 'success'){
-       // echo 'Raw: '. $result['nudity']['raw'] . 'Safe: '. $result['nudity']['safe'] . 'Patial: '. $result['nudity']['partial'];
         if($result['nudity']['raw'] >= max($result['nudity']['safe'], $result['nudity']['partial'])) return 1;
         else if($result['nudity']['partial'] >= max($result['nudity']['raw'], $result['nudity']['safe'])) 
         {
