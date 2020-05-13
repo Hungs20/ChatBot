@@ -5,10 +5,6 @@ $conn = mysqli_connect($DBHOST, $DBUSER, $DBPW, $DBNAME); // kết nối data
 $id = $_POST['id'];
 $noidung = $_POST['noidung'];
 
-global $JSON;
-$payload = '{"'.$JSON.'":"'.json_encode($noidung).'"}';
-echo $payload;
-
 //$noidung = substr($noidung,1,strlen($noidung) - 1);
 $errorChat = '{
      "messages": [
@@ -76,8 +72,7 @@ function isFile($url){
 }
 function sendchat($userid,$noidung){
 global $JSON;
-$nd = json_encode($noidung);
-$payload = '{"'.$JSON.'":"'.$nd.'"}';
+$payload = '{"'.$JSON.'":"'.json_encode($noidung).'"}';
 if(isImage($noidung)) requestImage($userid, $payload);
 else if(isVoid($noidung)) requestVoid($userid, $payload);
 else if(isVideo($noidung)) requestVideo($userid, $payload);
@@ -86,7 +81,6 @@ else requestText($userid,$payload);
 }
 
 function requestText($userid,$jsondata) { // hàm gửi chát :)))
-echo $jsondata;
   global $TOKEN;
   global $BOT_ID;
   global $BLOCK_NAME;
